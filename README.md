@@ -24,9 +24,9 @@ hashfinder -diff -i inputHashString -dir testDir
 ```bash
 hashfinder -t tesfile.bin -i inputHashString -dir testDir
 ```
-### Find a file with a matching hash to the input string hash in a dir
+### Find a file with a matching MD5 hash to the input string MD5 hash in a dir
 ```bash
-hashfinder -t tesfile.bin -i inputHashString -dir testDir
+hashfinder -t tesfile.bin -m md5 -i inputHashString -dir testDir
 ```
 *HashFinder default hashing is sha2. Specify hash with -m cryptoType*
 

@@ -27,6 +27,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func main() {
@@ -84,7 +85,7 @@ func main() {
 					fileTargetsha5Hash = sha512.Sum512(targetData)
 				}
 			} else {
-				tempHex, decodeErr := hex.DecodeString(*inputHashPtr)
+				tempHex, decodeErr := hex.DecodeString(strings.ToLower(*inputHashPtr))
 				if decodeErr != nil {
 					log.Fatal(decodeErr)
 				} //! Convert []byte to array
