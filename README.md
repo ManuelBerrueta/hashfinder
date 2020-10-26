@@ -1,4 +1,4 @@
-# *HashFinder*
+# **HashFinder**
 HashFinder finds if a file in a directory and subdirectories full of the same file is different (modified) by using the targetfile hash or hash as input string.               *
 Also will help you find a file matching a hash in a directory and subdirectories.
 This is useful for forensics and possibly finding interesting files like malware or other artifacts.
