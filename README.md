@@ -11,3 +11,8 @@ hashfinder -diff -t tesfile.bin -dir ./testDir/
 ```bash
 hashfinder -t tesfile.bin -dir ./testDir/
 ```
+
+## TODO:
+- Logging findings to a file
+- Recursive directory search
+- Hash as input string
