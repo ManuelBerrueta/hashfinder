@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *                  Two Number Combination Finder Script                     *
+ *                               HashFinder                                  *
  *									by										 *
  *						   Manny (Revx0r) Berrueta					         *
  *																			 *
@@ -10,7 +10,6 @@
  *               matching hash in a directory and subdirectories.            *
  *				You can also choose the crypto type by using the -m flag	 *
  *				Hash as an input                                     		 *
- *  																		 *
  *																			 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -21,6 +20,7 @@ import (
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
+	"encoding/hex"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -30,16 +30,22 @@ import (
 )
 
 func main() {
-	//todo: input hash instead of file
-	//todo: output finding to a file
 	dirPtr := flag.String("dir", "", "Pass in the target directory to search in")
 	diffPtr := flag.Bool("diff", false, "Find a file producing a different hash")
 	fileTargetPtr := flag.String("t", "", "Pass in the target file to check agaisnt")
-	cryptoTypePtr := flag.String("m", "", `Select Hash crypto type: md5, sha1, sha2
-											sha3, sha5. Default is Sha2.`)
+	cryptoTypePtr := flag.String("m", "", `Select Hash crypto type: md5, sha1,
+	 sha2, sha3, and sha5. Default is Sha2. To use -m crypto, i.e. -m sha1 or -m md5`)
+	inputHashPtr := flag.String("i", "", `-i inputhash. Will calculate the hash
+	 base ond the input string rather than a file`)
+	helpFlagPtr := flag.Bool("h", false, "Help flag to print out all the help.")
 	flag.Parse()
 
-	if *dirPtr == "" && *fileTargetPtr == "" {
+	if *helpFlagPtr {
+		flag.PrintDefaults()
+		os.Exit(0)
+	}
+
+	if *dirPtr == "" && *fileTargetPtr == "" || *dirPtr == "" && *inputHashPtr == "" {
 		fmt.Println("This script requires you to pass the -dir and -t flags!")
 		os.Exit(1)
 	}
@@ -54,23 +60,45 @@ func main() {
 			fmt.Println("TRUE TEST")
 		}
 		if file.IsDir() != true {
-			targetData, err := ioutil.ReadFile(*fileTargetPtr)
 
 			var fileTargetHash [32]byte
 			var fileTargetmd5Hash [16]byte
 			var fileTargetsha1Hash [20]byte
 			var fileTargetsha3Hash [48]byte
 			var fileTargetsha5Hash [64]byte
-			if *cryptoTypePtr == "" || *cryptoTypePtr == "sha2" {
-				fileTargetHash = sha256.Sum256(targetData)
-			} else if *cryptoTypePtr == "md5" {
-				fileTargetmd5Hash = md5.Sum(targetData)
-			} else if *cryptoTypePtr == "sha1" {
-				fileTargetsha1Hash = sha1.Sum(targetData)
-			} else if *cryptoTypePtr == "sha3" {
-				fileTargetsha3Hash = sha512.Sum384(targetData)
-			} else if *cryptoTypePtr == "sha5" {
-				fileTargetsha5Hash = sha512.Sum512(targetData)
+
+			if *fileTargetPtr != "" {
+				targetData, err := ioutil.ReadFile(*fileTargetPtr)
+				if err != nil {
+					log.Fatal(err)
+				}
+				if *cryptoTypePtr == "" || *cryptoTypePtr == "sha2" {
+					fileTargetHash = sha256.Sum256(targetData)
+				} else if *cryptoTypePtr == "md5" {
+					fileTargetmd5Hash = md5.Sum(targetData)
+				} else if *cryptoTypePtr == "sha1" {
+					fileTargetsha1Hash = sha1.Sum(targetData)
+				} else if *cryptoTypePtr == "sha3" {
+					fileTargetsha3Hash = sha512.Sum384(targetData)
+				} else if *cryptoTypePtr == "sha5" {
+					fileTargetsha5Hash = sha512.Sum512(targetData)
+				}
+			} else {
+				tempHex, decodeErr := hex.DecodeString(*inputHashPtr)
+				if decodeErr != nil {
+					log.Fatal(decodeErr)
+				} //! Convert []byte to array
+				if *cryptoTypePtr == "" || *cryptoTypePtr == "sha2" {
+					copy(fileTargetHash[:], tempHex)
+				} else if *cryptoTypePtr == "md5" {
+					copy(fileTargetmd5Hash[:], tempHex)
+				} else if *cryptoTypePtr == "sha1" {
+					copy(fileTargetsha1Hash[:], tempHex)
+				} else if *cryptoTypePtr == "sha3" {
+					copy(fileTargetsha3Hash[:], tempHex)
+				} else if *cryptoTypePtr == "sha5" {
+					copy(fileTargetsha5Hash[:], tempHex)
+				}
 			}
 
 			data, err := ioutil.ReadFile(path)
