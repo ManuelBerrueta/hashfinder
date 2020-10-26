@@ -31,6 +31,7 @@ import (
 func main() {
 	//todo: input hash instead of file
 	//todo: recursive search
+	//todo: output finding to a file
 	dirPtr := flag.String("dir", "", "Pass in the target directory to search in")
 	diffPtr := flag.Bool("diff", false, "Find a file producing a different hash")
 	fileTargtPtr := flag.String("t", "", "Pass in the target file to check agaisnt")
@@ -67,7 +68,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	for num, f := range files {
+	for _, f := range files {
 		data, err := ioutil.ReadFile(*dirPtr + f.Name())
 		if err != nil {
 			log.Fatal(err)
@@ -150,7 +151,7 @@ func main() {
 					fmt.Printf("\t\tMD5: %x\n", tempmd5)
 				}
 			} else { //! To find a matching hash to the target file
-				if fileTargetsha5Hash == tempSha5 {
+				if fileTargetmd5Hash == tempmd5 {
 					fmt.Printf("\t\tFound Matching Hash File!\t Name:%s\n", f.Name())
 					fmt.Printf("\t\tMD5: %x\n", tempmd5)
 				}
