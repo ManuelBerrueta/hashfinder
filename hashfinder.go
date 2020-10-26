@@ -1,16 +1,16 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                               HashFinder                                  *
- *									by										 *
- *						   Manny (Revx0r) Berrueta					         *
- *																			 *
+ *                                  by                                       *
+ *                        Manny (Revx0r) Berrueta                            *
+ *                                                                           *
  * Description: This script with -diff flag finds if a file in a directory   *
  *              full of the same file is different (modified) by using the   *
- *				targetfile hash. This is useful for forensics.               *
+ *              targetfile hash. This is useful for forensics.               *
  *              This script without the -diff flag will find a file with a   *
- *               matching hash in a directory and subdirectories.            *
- *				You can also choose the crypto type by using the -m flag	 *
- *				Hash as an input                                     		 *
- *																			 *
+ *              matching hash in a directory and subdirectories.             *
+ *              You can also choose the crypto type by using the -m flag     *
+ *              Hash as an input                                             *
+ *                                                                           *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 package main
