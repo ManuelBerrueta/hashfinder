@@ -30,6 +30,24 @@ import (
 	"strings"
 )
 
+// Banner prints out ascii banner :)
+func Banner() {
+	asciiBanner :=
+		`
+██░ ██  ▄▄▄        ██████  ██░ ██   █████▒██▓ ███▄    █ ▓█████▄ ▓█████  ██▀███  
+▓██░ ██▒▒████▄    ▒██    ▒ ▓██░ ██▒▓██   ▒▓██▒ ██ ▀█   █ ▒██▀ ██▌▓█   ▀ ▓██ ▒ ██▒
+▒██▀▀██░▒██  ▀█▄  ░ ▓██▄   ▒██▀▀██░▒████ ░▒██▒▓██  ▀█ ██▒░██   █▌▒███   ▓██ ░▄█ ▒
+░▓█ ░██ ░██▄▄▄▄██   ▒   ██▒░▓█ ░██ ░▓█▒  ░░██░▓██▒  ▐▌██▒░▓█▄   ▌▒▓█  ▄ ▒██▀▀█▄  
+░▓█▒░██▓ ▓█   ▓██▒▒██████▒▒░▓█▒░██▓░▒█░   ░██░▒██░   ▓██░░▒████▓ ░▒████▒░██▓ ▒██▒
+ ▒ ░░▒░▒ ▒▒   ▓▒█░▒ ▒▓▒ ▒ ░ ▒ ░░▒░▒ ▒ ░   ░▓  ░ ▒░   ▒ ▒  ▒▒▓  ▒ ░░ ▒░ ░░ ▒▓ ░▒▓░
+ ▒ ░▒░ ░  ▒   ▒▒ ░░ ░▒  ░ ░ ▒ ░▒░ ░ ░      ▒ ░░ ░░   ░ ▒░ ░ ▒  ▒  ░ ░  ░  ░▒ ░ ▒░
+ ░  ░░ ░  ░   ▒   ░  ░  ░   ░  ░░ ░ ░ ░    ▒ ░   ░   ░ ░  ░ ░  ░    ░     ░░   ░ 
+ ░  ░  ░      ░  ░      ░   ░  ░  ░        ░           ░    ░       ░  ░   ░     
+                                                          ░                      
+`
+	fmt.Println(asciiBanner)
+}
+
 func main() {
 	dirPtr := flag.String("dir", "", "Pass in the target directory to search in")
 	diffPtr := flag.Bool("diff", false, "Find a file producing a different hash")
@@ -40,6 +58,8 @@ func main() {
 	 base ond the input string rather than a file`)
 	helpFlagPtr := flag.Bool("h", false, "Help flag to print out all the help.")
 	flag.Parse()
+
+	Banner()
 
 	if *helpFlagPtr {
 		flag.PrintDefaults()
@@ -54,11 +74,6 @@ func main() {
 	walkErr := filepath.Walk(*dirPtr, func(path string, file os.FileInfo, err error) error {
 		if err != nil {
 			fmt.Print("ERROR: TEMP")
-		}
-
-		temp := file.IsDir()
-		if temp == true {
-			fmt.Println("TRUE TEST")
 		}
 		if file.IsDir() != true {
 
